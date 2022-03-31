@@ -14,12 +14,12 @@ for(var i=0;i<chainvals.length;i++){
 }
 
 keystore
-    .add(key, 'pem')
-    .then(_ => {
-        const jwks = keystore.toJSON();
-        jwks.keys[0].x5c = chain ? chainvals : undefined;
-        jwks.keys[0].use = "enc";
-        jwks.keys[0].alg = "RSA-OAEP";
-        jwks.keys[0].expires_on = 2222222222;
-        console.log(JSON.stringify(jwks, null, 4));
+        .add(key, 'pem')
+        .then(_ => {
+            const jwks = keystore.toJSON();
+            jwks.keys[0].x5c = chain ? chainvals : undefined;
+            jwks.keys[0].use = "enc";
+            jwks.keys[0].alg = "RSA-OAEP";
+            jwks.keys[0].expires_on = 2222222222;
+            console.log(JSON.stringify(jwks, null, 4));
     });
