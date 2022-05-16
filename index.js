@@ -16,7 +16,7 @@ keystore
 		const jwks = keystore.toJSON();
 		jwks.keys[0].x5c = chain ? chainvals : undefined;
 		jwks.keys[0].use = "enc";
-		jwks.keys[0].alg = "RSA-OAEP";
+		jwks.keys[0].alg = "RSA-OAEP-256";
 		jwks.keys[0].expires_on = 2222222222; // Non-standard -- required by Chase.
 		console.log(JSON.stringify(jwks, null, 4));
 	});
