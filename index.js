@@ -1,10 +1,9 @@
 const jose = require('node-jose');
 const fs = require('fs');
 
-const args = process.argv.slice(2);
+const chain = process.argv.slice(2);
 
-const key = fs.readFileSync(args[0]);
-const chain = args.slice(1)
+const key = fs.readFileSync(chain[0]);
 
 const keystore = jose.JWK.createKeyStore();
 const chainvals = chain.map(file =>
@@ -18,6 +17,6 @@ keystore
 		jwks.keys[0].x5c = chain ? chainvals : undefined;
 		jwks.keys[0].use = "enc";
 		jwks.keys[0].alg = "RSA-OAEP";
-		jwks.keys[0].expires_on = 2222222222;
+		jwks.keys[0].expires_on = 2222222222; // Non-standard -- required by Chase.
 		console.log(JSON.stringify(jwks, null, 4));
 	});
