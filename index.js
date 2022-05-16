@@ -7,7 +7,7 @@ const key = fs.readFileSync(chain[0]);
 
 const keystore = jose.JWK.createKeyStore();
 const chainvals = chain.map(file =>
-	fs.readFileSync(file, 'ascii').split('\n').slice(1, -2).join('')
+	fs.readFileSync(file, 'ascii').split(/\r?\n/).slice(1, -2).join('')
 )
 
 keystore
