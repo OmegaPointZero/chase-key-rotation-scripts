@@ -1,32 +1,29 @@
-# pem-to-jwk
+# Key Rotation Scripts
 
-Converts a pem-encoded public certificate to a jwk token.
+These scripts 
 
-## Automated Usage
+## Installation
 
-Run the `generate_jwk.sh` script like so to automatically install all dependencies, generate the JWK and synchronize the expiration timestamps:
+Install the required dependencies with the following:
+```
+npm i
+pip3 install -r requirements.txt
+```
+
+## Automated JWK Generation
+
+You will need to copy the DigiCert CA `.crt` file and the new certificate from IT to the current directory. Then run the `generate_jwk.sh` script like so to generate the JWK synchronize the expiration timestamps and adjust the key ID:
 
 ```
 ./generate_jwk.sh <certificate-name> <Digicert-ca> <output-json-filename>
 ```
 
-## Dependencies
+## Testing
 
-* nodejs
-* npm
-
-Install node dependencies with:
-```
-npm i
-```
-
-## Usage
+Once the JWK has been generated, you need to upload your `.yaml` files to the dev, sandbox and live environments, then run the test in the following way, using the `.json` filename for the key you are rotating:
 
 ```
-node index.js <certificate-name> [<cert-chain-entry1>, <cert-chain-entry2>, ...]
+python3 test_jwk.py chase-(pan-)jwk.json <dev|sandbox|live> <vault_id>
 ```
 
-For example:
-```
-node index.js www_verygoodsecurity_com.crt DigiCertCA.crt TrustedRoot.crt
-```
+You can then copy the `.json` file to the repo to update the keys on the public website when testing is completed in dev, sandbox and live.
