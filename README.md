@@ -1,6 +1,6 @@
 # Key Rotation Scripts
 
-These scripts 
+These scripts are meant to assist and automate in the rotation and testing of the keys used for the Chase integrations.
 
 ## Installation
 
