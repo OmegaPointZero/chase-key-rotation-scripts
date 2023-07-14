@@ -1,0 +1,67 @@
+data:
+  - attributes:
+      created_at: '2023-04-10T23:26:43'
+      destination_override_endpoint: 'https://echo.apps.verygood.systems'
+      entries:
+        - classifiers: {}
+          config:
+            condition: AND
+            rules:
+              - expression:
+                  field: PathInfo
+                  operator: matches
+                  type: string
+                  values:
+                    - /post
+          id: be47b40a-de99-4f14-8b8d-ede8e54bc2d7
+          id_selector: null
+          operation: REDACT
+          operations:
+            - - name: github.com/verygoodsecurity/common/compute/larky/http/Process
+                parameters:
+                  script: >
+                    load('@stdlib//builtins', 'builtins')
+
+                    load('@vgs//Chase/jwk', decrypt='decrypt',
+                    pan_decrypt='pan_decrypt')
+
+                    load('@stdlib//json', json='json')
+
+                    load('@vgs//vault', vault='vault')
+
+
+                    def process(input, ctx):
+                      body = input.body.decode('utf-8')
+                      data = json.decode(body)
+                      if 'chase_pan' in data:
+                          number = pan_decrypt(bytes(data['chase_pan'], 'utf-8'))
+                          data['chase_pan'] = number
+                      if 'chase' in data:
+                          number = decrypt(bytes(data['chase'], 'utf-8'))
+                          data['chase'] = number
+                      encoded = json.dumps(data)
+                      input.body = builtins.bytes(encoded)
+                      return input
+          phase: REQUEST
+          public_token_generator: UUID
+          targets:
+            - body
+          token_manager: PERSISTENT
+          transformer: JSON_PATH
+          transformer_config:
+            - $.account_number
+          transformer_config_map: null
+          type: null
+      host_endpoint: (.*)\.verygoodproxy\.io
+      id: 0a9f7b24-fa7f-45ac-89f0-8ee77e8187ee
+      ordinal: null
+      port: 80
+      protocol: http
+      source_endpoint: '*'
+      tags:
+        name: echo.apps.verygood.systems-fuchsia-hexagon
+        source: RouteContainer
+      updated_at: '2023-07-12T20:07:12'
+    id: 0a9f7b24-fa7f-45ac-89f0-8ee77e8187ee
+    type: rule_chain
+version: 1
